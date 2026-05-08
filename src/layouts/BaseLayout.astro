@@ -1,0 +1,52 @@
+---
+import '../styles/global.css';
+
+interface Props {
+  title: string;
+  description?: string;
+  ogType?: string;
+}
+
+const { title, description = 'ML engineer — Peter Bacalso', ogType = 'website' } = Astro.props;
+const canonicalUrl = Astro.url.href;
+const ogImageUrl = new URL('/og-image.jpg', Astro.site).href;
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width" />
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonicalUrl} />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta property="og:type" content={ogType} />
+    <meta property="og:url" content={canonicalUrl} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:image" content={ogImageUrl} />
+    <meta property="og:site_name" content="Peter Bacalso" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={ogImageUrl} />
+    <title>{title}</title>
+  </head>
+  <body class="min-h-screen bg-white text-gray-900 font-sans antialiased flex flex-col">
+    <header class="max-w-2xl mx-auto px-4 py-8 flex justify-between items-center w-full">
+      <a href="/" class="font-semibold text-lg hover:text-gray-600 transition-colors">
+        Peter Bacalso
+      </a>
+      <nav class="flex gap-6 text-sm">
+        <a href="/" class="hover:text-gray-600 transition-colors">About</a>
+        <a href="/blog" class="hover:text-gray-600 transition-colors">Blog</a>
+      </nav>
+    </header>
+    <main class="max-w-2xl mx-auto px-4 py-8 flex-1 w-full">
+      <slot />
+    </main>
+    <footer class="max-w-2xl mx-auto px-4 py-8 text-sm text-gray-500 border-t border-gray-100 w-full">
+      © {new Date().getFullYear()} Peter Bacalso
+    </footer>
+  </body>
+</html>

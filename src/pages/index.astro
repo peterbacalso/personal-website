@@ -1,0 +1,43 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { Image } from 'astro:assets';
+import profilePhoto from '../assets/me.jpeg';
+---
+
+<BaseLayout title="Peter Bacalso — ML Engineer">
+  <section class="flex flex-col sm:flex-row gap-8 items-start">
+    <Image
+      src={profilePhoto}
+      alt="Peter Bacalso"
+      width={320}
+      height={320}
+      quality={95}
+      class="rounded-full shrink-0 object-cover w-40 h-40"
+    />
+    <div>
+      <h1 class="text-2xl font-bold mb-2">Peter Bacalso</h1>
+      <p class="text-gray-600 mb-4 leading-relaxed">
+        I'm an AI/ML engineer based in Austin, TX, originally from Toronto, Canada.
+        I build models, agentic workflows, and the conversational systems that bring them to life — end to end, from messy data to something people can actually use.
+      </p>
+      <div class="flex gap-4 text-sm">
+        <a
+          href="https://github.com/peterbacalso"
+          class="text-gray-700 hover:text-gray-500 transition-colors"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          GitHub
+        </a>
+        <a
+          href="https://linkedin.com/in/peterbacalso"
+          class="text-gray-700 hover:text-gray-500 transition-colors"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          LinkedIn
+        </a>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
