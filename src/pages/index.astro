@@ -1,7 +1,7 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import { Image } from 'astro:assets';
-import profilePhoto from '../assets/me.jpeg';
+import profilePhoto from '../assets/me.png';
 ---
 
 <BaseLayout title="Peter Bacalso — ML Engineer">
@@ -13,6 +13,7 @@ import profilePhoto from '../assets/me.jpeg';
       height={320}
       quality={95}
       class="rounded-full shrink-0 object-cover w-40 h-40"
+      style="object-position: 50% 20%"
     />
     <div>
       <h1 class="text-2xl font-bold mb-2">Peter Bacalso</h1>
