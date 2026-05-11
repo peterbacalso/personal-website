@@ -1,5 +1,6 @@
 ---
 import BaseLayout from './BaseLayout.astro';
+import type { CollectionEntry } from 'astro:content';
 
 interface Props {
   title: string;
@@ -7,9 +8,12 @@ interface Props {
   pubDate: Date;
   updatedDate?: Date;
   tags: string[];
+  readingTime: number;
+  prevPost: CollectionEntry<'blog'> | null;
+  nextPost: CollectionEntry<'blog'> | null;
 }
 
-const { title, description, pubDate, updatedDate, tags } = Astro.props;
+const { title, description, pubDate, updatedDate, tags, readingTime, prevPost, nextPost } = Astro.props;
 
 const formattedPubDate = pubDate.toLocaleDateString('en-US', {
   year: 'numeric',
@@ -24,9 +28,20 @@ const formattedUpdatedDate = updatedDate?.toLocaleDateString('en-US', {
   day: 'numeric',
   timeZone: 'UTC',
 });
+
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'BlogPosting',
+  headline: title,
+  description,
+  datePublished: pubDate.toISOString(),
+  ...(updatedDate && { dateModified: updatedDate.toISOString() }),
+  author: { '@type': 'Person', name: 'Peter Bacalso', url: 'https://peterbacalso.com' },
+  url: Astro.url.href,
+};
 ---
 
-<BaseLayout title={title} description={description} ogType="article">
+<BaseLayout title={title} description={description} ogType="article" jsonLd={jsonLd}>
   <article class="prose prose-gray max-w-none">
     <header class="mb-8 not-prose">
       <a href="/blog" class="text-sm text-gray-500 hover:text-gray-700 transition-colors mb-4 inline-block">
@@ -38,6 +53,7 @@ const formattedUpdatedDate = updatedDate?.toLocaleDateString('en-US', {
         {formattedUpdatedDate && (
           <span>· Updated {formattedUpdatedDate}</span>
         )}
+        <span>· {readingTime} min read</span>
       </div>
       {tags.length > 0 && (
         <div class="flex gap-2 mt-3 flex-wrap">
@@ -50,5 +66,19 @@ const formattedUpdatedDate = updatedDate?.toLocaleDateString('en-US', {
       )}
     </header>
     <slot />
+    {(prevPost || nextPost) && (
+      <nav class="flex justify-between mt-12 pt-8 border-t border-gray-100 not-prose">
+        {prevPost ? (
+          <a href={`/blog/${prevPost.id}`} class="text-sm text-gray-500 hover:text-gray-700 transition-colors max-w-[45%]">
+            ← {prevPost.data.title}
+          </a>
+        ) : <span />}
+        {nextPost && (
+          <a href={`/blog/${nextPost.id}`} class="text-sm text-gray-500 hover:text-gray-700 transition-colors ml-auto text-right max-w-[45%]">
+            {nextPost.data.title} →
+          </a>
+        )}
+      </nav>
+    )}
   </article>
 </BaseLayout>
