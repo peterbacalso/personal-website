@@ -2,9 +2,20 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 import { Image } from 'astro:assets';
 import profilePhoto from '../assets/me.png';
+
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'Person',
+  name: 'Peter Bacalso',
+  url: 'https://peterbacalso.com',
+  sameAs: [
+    'https://github.com/peterbacalso',
+    'https://linkedin.com/in/peterbacalso',
+  ],
+};
 ---
 
-<BaseLayout title="Peter Bacalso — ML Engineer">
+<BaseLayout title="Peter Bacalso — ML Engineer" jsonLd={jsonLd}>
   <section class="flex flex-col sm:flex-row gap-8 items-start">
     <Image
       src={profilePhoto}
